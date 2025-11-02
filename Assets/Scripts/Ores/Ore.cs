@@ -80,7 +80,7 @@ public class Ore : MonoBehaviour
         ;
     }
 
-    bool IsPlayerNearby()//123
+    bool IsPlayerNearby()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
