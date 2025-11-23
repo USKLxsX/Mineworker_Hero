@@ -8,8 +8,10 @@ public class Unlock : MonoBehaviour
 {
     [SerializeField] string fileName;
     
-    public GameObject parentSkill;
+    public List<GameObject> parentSkills = new List<GameObject>();
     public GameObject skill;
+    
+    public List<GameObject> childSkills = new List<GameObject>();
 
     public void UnlockSkill()
     {
@@ -19,19 +21,56 @@ public class Unlock : MonoBehaviour
         }
         else
         {
-            if (CheckStatus(parentSkill))
+            if (IsAnyParentUnlocked())
             {
                 List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
-                
-                entries.Add(new SkillActiveInputEntry(skill.name, true));
-                
+
+                var existingEntry = entries.FirstOrDefault(s => s.skillName == skill.name);
+                if (existingEntry == null)
+                {
+                    entries.Add(new SkillActiveInputEntry(skill.name, true));
+                }
+                else
+                {
+                    existingEntry.isActive = true;
+                }
+
                 FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
-            
-                Debug.Log("Unlocked Skill");
+                
+                Debug.Log("Unlocked Skill: " + skill.name);
             }
             else
             {
-                Debug.Log("Parent Skill not unlocked");
+                Debug.Log("No valid parent skill is unlocked. Cannot unlock.");
+            }
+        }
+    }
+
+    public void LockSkill()
+    {
+        List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
+        
+        var skillEntry = entries.FirstOrDefault(s => s.skillName == skill.name);
+        
+        if (skillEntry != null)
+        {
+            entries.Remove(skillEntry);
+            FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
+            Debug.Log($"Removed skill: {skill.name}");
+
+            // Give the money back
+            
+        }
+        
+        foreach (GameObject child in childSkills)
+        {
+            if (child != null)
+            {
+                Unlock childUnlockScript = child.GetComponent<Unlock>();
+                if (childUnlockScript != null)
+                {
+                    childUnlockScript.LockSkill();
+                }
             }
         }
     }
@@ -76,8 +115,21 @@ public class Unlock : MonoBehaviour
         }
     }
 
-    private void Start()
+    private bool IsAnyParentUnlocked()
     {
+        if (parentSkills.Count == 0) return false; 
+
+        foreach (GameObject parent in parentSkills)
+        {
+            if (parent != null)
+            {
+                if (CheckStatus(parent))
+                {
+                    return true;
+                }
+            }
+        }
         
+        return false;
     }
 }
