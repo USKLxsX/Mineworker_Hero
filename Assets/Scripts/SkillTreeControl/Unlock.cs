@@ -13,13 +13,26 @@ public class Unlock : MonoBehaviour
 
     public void UnlockSkill()
     {
-        if (CheckStatus(parentSkill))
+        if (CheckStatus(skill))
         {
-            List<SkillActiveInputEntry> entries = new List<SkillActiveInputEntry>();
-        
-            entries.Add(new SkillActiveInputEntry(skill.name, true));
-        
-            FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
+            Debug.Log("Skill is already active");
+        }
+        else
+        {
+            if (CheckStatus(parentSkill))
+            {
+                List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
+                
+                entries.Add(new SkillActiveInputEntry(skill.name, true));
+                
+                FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
+            
+                Debug.Log("Unlocked Skill");
+            }
+            else
+            {
+                Debug.Log("Parent Skill not unlocked");
+            }
         }
     }
 
