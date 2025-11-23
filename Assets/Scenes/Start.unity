@@ -546,10 +546,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resources: []
-  basicblood: 0
-  basicattack: 0
-  basicminespeed: 0
-  basicmovespeed: 0
+  blood: 0
+  attack: 0
+  strength: 0
+  minespeed: 0
+  movespeed: 0
 --- !u!1 &210985983
 GameObject:
   m_ObjectHideFlags: 0

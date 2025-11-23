@@ -48,14 +48,16 @@ public class GameDateController : MonoBehaviour
 
     [Header("游戏资源")]
     public List<ResourceInfo> resources;
-    [Header("玩家基础生命值")]
-    public int basicblood;
-    [Header("玩家基础攻击力")]
-    public int basicattack;
-    [Header("玩家基础挖矿速度")]
-    public float basicminespeed;
-    [Header("玩家基础移动速度")]
-    public float basicmovespeed;
+    [Header("玩家当前生命值")]
+    public float blood;
+    [Header("玩家当前攻击力")]
+    public float attack;
+    [Header("玩家当前力量增幅")]
+    public float strength;
+    [Header("玩家当前挖矿速度")]
+    public float minespeed;
+    [Header("玩家当前移动速度")]
+    public float movespeed;
 
     private static GameDateController instance;
     public static GameDateController Instance
