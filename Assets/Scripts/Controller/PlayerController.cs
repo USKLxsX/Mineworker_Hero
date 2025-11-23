@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = hit.collider != null;
 
         // µ˜ ‘…‰œﬂ
-        Debug.DrawRay(rayStart, Vector2.down * rayLength, isGrounded ? Color.green : Color.yellow);
+        //Debug.DrawRay(rayStart, Vector2.down * rayLength, isGrounded ? Color.green : Color.yellow);
     }
 
     void UpdateUI()

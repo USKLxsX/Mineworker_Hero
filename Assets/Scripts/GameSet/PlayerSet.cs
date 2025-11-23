@@ -3,35 +3,35 @@ using UnityEngine.UI;
 
 public class PlayerSet : MonoBehaviour
 {
-    [Header("���ý���")]
+    [Header("设置界面")]
     public GameObject sets;
-    [Header("�������˵�ȷ�Ͻ���")]
+    [Header("是否返回主页面子物体")]
     public GameObject ifbackhome;
-    [Header("������ͼ��")]
+    [Header("打开音量图标")]
     public Sprite openvoice;
-    [Header("�ر�����ͼ��")]
+    [Header("静音图标")]
     public Sprite closevoice;
 
-    [Header("������")]
+    [Header("总音量")]
     [Range(0, 100)]
     public float totalvolumn;
     public bool istotalvolumn;
-    [Header("��Ϸ��������")]
+    [Header("音量")]
     [Range(0, 100)]
     public float volumn;
     public bool isvolumn;
-    [Header("��Ч")]
+    [Header("音效")]
     [Range(0, 100)]
     public float voiceeffect;
     public bool isvoiceeffect;
 
-    private Button setbtn;//���������ð�ť
-    private Slider totalvolumnslider;//������������
-    private Slider volumnslider;//�������ֻ�����
-    private Slider voiceeffectslider;//��Ч������
-    private Button istotalvolumnbutton;//������һ��������ť
-    private Button isvolumnbutton;//��������һ��������ť
-    private Button isvoiceeffectbutton;//��Чһ��������ť
+    private Button setbtn;//打开设置按钮
+    private Slider totalvolumnslider;//总音量滑动条
+    private Slider volumnslider;//音量滑动条
+    private Slider voiceeffectslider;//音效滑动条
+    private Button istotalvolumnbutton;//是否关闭总音量按钮
+    private Button isvolumnbutton;//是否关闭音量按钮
+    private Button isvoiceeffectbutton;//是否关闭音效按钮
 
     private static PlayerSet instance;
     public static PlayerSet Instance
