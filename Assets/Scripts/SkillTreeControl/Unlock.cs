@@ -13,13 +13,27 @@ public class Unlock : MonoBehaviour
 
     public void UnlockSkill()
     {
-        string parentName = parentSkill.name;
-        
-        List<SkillActiveInputEntry> entries = new List<SkillActiveInputEntry>();
-        
-        entries.Add(new SkillActiveInputEntry(skill.name, true));
-        
-        FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
+        if (CheckStatus(skill))
+        {
+            Debug.Log("Skill is already active");
+        }
+        else
+        {
+            if (CheckStatus(parentSkill))
+            {
+                List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
+                
+                entries.Add(new SkillActiveInputEntry(skill.name, true));
+                
+                FileHandler.SaveToJSON<SkillActiveInputEntry>(entries, fileName);
+            
+                Debug.Log("Unlocked Skill");
+            }
+            else
+            {
+                Debug.Log("Parent Skill not unlocked");
+            }
+        }
     }
 
     public void TestRead()
@@ -38,6 +52,28 @@ public class Unlock : MonoBehaviour
             Debug.Log($"Skill '{skill.name}' not found");
         }
         
+    }
+
+    public Boolean CheckStatus(GameObject skill)
+    {
+        if (skill.name == "ParentNull")
+        {
+            return true;
+        }
+        
+        List<SkillActiveInputEntry> skillList = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
+        
+        var skillLoaded = skillList.FirstOrDefault(s => s.skillName == skill.name);
+
+        if (skillLoaded != null)
+        {
+            bool isActive = skillLoaded.isActive;
+            return isActive;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void Start()

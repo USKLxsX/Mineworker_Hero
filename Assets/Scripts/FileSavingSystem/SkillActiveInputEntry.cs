@@ -1,3 +1,6 @@
+using System;
+
+[System.Serializable]
 public class SkillActiveInputEntry
 {
     public string skillName;
