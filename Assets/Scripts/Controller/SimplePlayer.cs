@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class SimplePlayer : MonoBehaviour
 {
-    public SimpleOre targetOre;
+    private SimpleOre targetOre;
     private Vector2 currentDirection = Vector2.down;
     private bool isDigging = false;
 
     [Header("检测设置")]
     public float rayDistance = 1.5f;
-    public float detectionWidth = 0.3f; // 检测宽度
+    public float rayStartOffset = 0.3f;
 
     void Start()
     {
@@ -17,11 +17,6 @@ public class SimplePlayer : MonoBehaviour
             var rb = gameObject.AddComponent<Rigidbody2D>();
             rb.gravityScale = 3f;
             rb.freezeRotation = true;
-        }
-
-        if (GetComponent<Collider2D>() == null)
-        {
-            gameObject.AddComponent<BoxCollider2D>();
         }
 
         gameObject.tag = "Player";
@@ -37,14 +32,15 @@ public class SimplePlayer : MonoBehaviour
         // 转向
         HandleDirectionInput();
 
-        // 使用BoxCast检测矿石（更宽的范围）
-        FindOreWithBoxCast();
+        // 找矿石
+        FindOre();
 
         // 挖矿控制
         HandleDigging();
 
-        // 可视化
-        VisualizeDetection();
+        // 可视化射线
+        Vector2 rayStart = (Vector2)transform.position + currentDirection * rayStartOffset;
+        Debug.DrawRay(rayStart, currentDirection * (rayDistance - rayStartOffset), GetDirectionColor());
     }
 
     void HandleDirectionInput()
@@ -66,38 +62,33 @@ public class SimplePlayer : MonoBehaviour
         }
     }
 
-    void FindOreWithBoxCast()
+    void FindOre()
     {
-        // 使用BoxCast检测，范围更宽
-        Vector2 size = new Vector2(detectionWidth, detectionWidth);
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, size, 0f, currentDirection, rayDistance);
+        Vector2 rayStart = (Vector2)transform.position + currentDirection * rayStartOffset;
+        RaycastHit2D hit = Physics2D.Raycast(rayStart, currentDirection, rayDistance - rayStartOffset);
 
         SimpleOre newTarget = null;
-        foreach(RaycastHit2D hit in hits)
-        {
-            if (hit.collider != null)
-            {
-                Debug.Log($"检测到物体: {hit.collider.name}, 标签: {hit.collider.tag}");
 
-                if (hit.collider.CompareTag("Ore"))
-                {
-                    newTarget = hit.collider.GetComponent<SimpleOre>();
-                    if (newTarget != null)
-                    {
-                        Debug.Log($"找到矿石: {newTarget.oreType}");
-                    }
-                }
+        if (hit.collider != null && hit.collider.CompareTag("Ore"))
+        {
+            newTarget = hit.collider.GetComponent<SimpleOre>();
+            if (newTarget != null)
+            {
+                Debug.Log($"找到矿石: {newTarget.oreType}");
             }
         }
 
+        // 如果目标变化
         if (newTarget != targetOre)
         {
+            // 停止挖掘旧目标
             if (targetOre != null)
             {
                 targetOre.StopDigging();
                 isDigging = false;
             }
 
+            // 设置新目标
             targetOre = newTarget;
         }
     }
@@ -109,41 +100,23 @@ public class SimplePlayer : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.J) && !isDigging)
+        // 按下J键开始挖掘
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log($"开始挖掘 {targetOre.oreType}");
+            Debug.Log($"按下J键，开始挖掘 {targetOre.oreType}");
             targetOre.StartDigging();
             isDigging = true;
         }
 
+        // 持续按住J键时，挖掘进度在矿石脚本中更新
+
+        // 松开J键停止挖掘
         if (Input.GetKeyUp(KeyCode.J) && isDigging)
         {
-            Debug.Log("停止挖掘");
+            Debug.Log("松开J键，停止挖掘");
             targetOre.StopDigging();
             isDigging = false;
         }
-    }
-
-    void VisualizeDetection()
-    {
-        // 可视化BoxCast范围
-        Vector2 size = new Vector2(detectionWidth, detectionWidth);
-        Vector2 endPos = (Vector2)transform.position + currentDirection * rayDistance;
-
-        // 绘制BoxCast范围
-        Debug.DrawLine(transform.position, endPos, GetDirectionColor());
-
-        // 绘制检测框
-        Vector2 perpendicular = new Vector2(-currentDirection.y, currentDirection.x);
-        Vector2 topLeft = (Vector2)transform.position + perpendicular * detectionWidth * 0.5f;
-        Vector2 topRight = (Vector2)transform.position - perpendicular * detectionWidth * 0.5f;
-        Vector2 bottomLeft = topLeft + currentDirection * rayDistance;
-        Vector2 bottomRight = topRight + currentDirection * rayDistance;
-
-        Debug.DrawLine(topLeft, topRight, Color.yellow);
-        Debug.DrawLine(topLeft, bottomLeft, Color.yellow);
-        Debug.DrawLine(topRight, bottomRight, Color.yellow);
-        Debug.DrawLine(bottomLeft, bottomRight, Color.yellow);
     }
 
     Color GetDirectionColor()
