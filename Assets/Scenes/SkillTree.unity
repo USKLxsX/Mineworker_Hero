@@ -334,11 +334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 108772183}
+  parentSkill: {fileID: 0}
   skill: {fileID: 74638408}
-  childSkills:
-  - {fileID: 1191624128}
 --- !u!114 &74638411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,14 +715,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 1274168267}
+  parentSkill: {fileID: 0}
   skill: {fileID: 108772183}
-  childSkills:
-  - {fileID: 991572451}
-  - {fileID: 1893086406}
-  - {fileID: 74638408}
-  - {fileID: 129961809}
 --- !u!114 &108772189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,12 +798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 991572451}
-  - {fileID: 1893086406}
+  parentSkill: {fileID: 0}
   skill: {fileID: 113865068}
-  childSkills:
-  - {fileID: 2037591188}
 --- !u!114 &113865070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,11 +959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 108772183}
+  parentSkill: {fileID: 0}
   skill: {fileID: 129961809}
-  childSkills:
-  - {fileID: 1191624128}
 --- !u!114 &129961812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3712,11 +3696,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 108772183}
+  parentSkill: {fileID: 0}
   skill: {fileID: 991572451}
-  childSkills:
-  - {fileID: 113865068}
 --- !u!114 &991572456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4154,10 +4135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4402,12 +4383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 74638408}
-  - {fileID: 129961809}
+  parentSkill: {fileID: 0}
   skill: {fileID: 1191624128}
-  childSkills:
-  - {fileID: 2065642689}
 --- !u!114 &1191624130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6580,11 +6557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 108772183}
+  parentSkill: {fileID: 0}
   skill: {fileID: 1893086406}
-  childSkills:
-  - {fileID: 113865068}
 --- !u!114 &1893086411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6843,10 +6817,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 113865068}
+  parentSkill: {fileID: 0}
   skill: {fileID: 2037591188}
-  childSkills: []
 --- !u!114 &2037591191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6986,10 +6958,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: skillActiveStats.json
-  parentSkills:
-  - {fileID: 1191624128}
+  parentSkill: {fileID: 0}
   skill: {fileID: 2065642689}
-  childSkills: []
 --- !u!114 &2065642692
 MonoBehaviour:
   m_ObjectHideFlags: 0

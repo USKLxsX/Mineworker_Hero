@@ -114,7 +114,7 @@ public class GameDateController : MonoBehaviour
             }
         }
 
-        int[,] matrix = RandomMatrix.GetARandomMatrix(10,8,4,4,2,15,12);
+        int[,] matrix = RandomMatrix.GetARandomMatrix(25,12,20,20,5,35,10);
         Debug.Log(RandomMatrix.MatrixToString(matrix));
     }
 
