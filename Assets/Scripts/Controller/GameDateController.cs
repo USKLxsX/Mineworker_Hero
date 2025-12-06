@@ -46,18 +46,21 @@ public class GameDateController : MonoBehaviour
         }
     }
 
-    [Header("ÓÎÏ·×ÊÔ´")]
+    [Header("ï¿½ï¿½Ï·ï¿½ï¿½Ô´")]
     public List<ResourceInfo> resources;
-    [Header("Íæ¼Òµ±Ç°ÉúÃüÖµ")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Öµ")]
     public float blood;
-    [Header("Íæ¼Òµ±Ç°¹¥»÷Á¦")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float attack;
-    [Header("Íæ¼Òµ±Ç°Á¦Á¿Ôö·ù")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float strength;
-    [Header("Íæ¼Òµ±Ç°ÍÚ¿óËÙ¶È")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½Ú¿ï¿½ï¿½Ù¶ï¿½")]
     public float minespeed;
-    [Header("Íæ¼Òµ±Ç°ÒÆ¶¯ËÙ¶È")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½")]
     public float movespeed;
+    public float criticalChance;
+    public float miningFortune;
+    public float absorptionCount;
 
     private static GameDateController instance;
     public static GameDateController Instance
