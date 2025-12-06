@@ -11,6 +11,7 @@ public class ShowInfo : MonoBehaviour
     [SerializeField] string fileName;
     
     public Image logo;
+    public Sprite icon;
     public TMP_Text titleText;
     public TMP_Text descriptionText;
     public TMP_Text statusText;
@@ -26,6 +27,7 @@ public class ShowInfo : MonoBehaviour
     {
         titleText.text = title;
         descriptionText.text = description;
+        logo.sprite = icon;
 
         List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
 
