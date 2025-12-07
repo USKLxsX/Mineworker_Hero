@@ -4,24 +4,10 @@ public class SimplePlayer : MonoBehaviour
 {
     private SimpleOre targetOre;
     private Vector2 currentDirection = Vector2.down;
-    private bool isDigging = false;
 
     [Header("检测设置")]
     public float rayDistance = 1.5f;
     public float rayStartOffset = 0.3f;
-
-    void Start()
-    {
-        if (GetComponent<Rigidbody2D>() == null)
-        {
-            var rb = gameObject.AddComponent<Rigidbody2D>();
-            rb.gravityScale = 3f;
-            rb.freezeRotation = true;
-        }
-
-        gameObject.tag = "Player";
-        Debug.Log("玩家初始化完成");
-    }
 
     void Update()
     {
@@ -48,17 +34,14 @@ public class SimplePlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             currentDirection = Vector2.left;
-            Debug.Log("转向左边");
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
             currentDirection = Vector2.right;
-            Debug.Log("转向右边");
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             currentDirection = Vector2.down;
-            Debug.Log("转向下边");
         }
     }
 
@@ -74,48 +57,32 @@ public class SimplePlayer : MonoBehaviour
             newTarget = hit.collider.GetComponent<SimpleOre>();
             if (newTarget != null)
             {
-                Debug.Log($"找到矿石: {newTarget.oreType}");
+                Debug.Log($"找到矿石: 类型={newTarget.oreType}");
             }
         }
 
-        // 如果目标变化
         if (newTarget != targetOre)
         {
-            // 停止挖掘旧目标
             if (targetOre != null)
             {
                 targetOre.StopDigging();
-                isDigging = false;
             }
 
-            // 设置新目标
             targetOre = newTarget;
         }
     }
 
     void HandleDigging()
     {
-        if (targetOre == null)
-        {
-            return;
-        }
+        if (targetOre == null) return;
 
-        // 按下J键开始挖掘
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKey(KeyCode.J))
         {
-            Debug.Log($"按下J键，开始挖掘 {targetOre.oreType}");
             targetOre.StartDigging();
-            isDigging = true;
         }
-
-        // 持续按住J键时，挖掘进度在矿石脚本中更新
-
-        // 松开J键停止挖掘
-        if (Input.GetKeyUp(KeyCode.J) && isDigging)
+        else if (Input.GetKeyUp(KeyCode.J))
         {
-            Debug.Log("松开J键，停止挖掘");
             targetOre.StopDigging();
-            isDigging = false;
         }
     }
 
