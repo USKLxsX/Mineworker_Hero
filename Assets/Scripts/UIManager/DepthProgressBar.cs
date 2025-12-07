@@ -7,7 +7,7 @@ public class DepthProgressBar : MonoBehaviour
     public RectTransform depthBar;
     public Transform player;
     public float maxDepth = 30f;
-    public float barMaxHeight = 400f; // 进度条最大高度
+    public float barMaxHeight = 350f; // 进度条最大高度
 
     private float startY;
     private float originalBarHeight;

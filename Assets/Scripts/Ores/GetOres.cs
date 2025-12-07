@@ -26,6 +26,8 @@ public class GetOres : MonoBehaviour
                 Vector2 worldPos = (Vector2)parenttransform.TransformPoint(localOffset);
                 GameObject one=Instantiate(prefab, worldPos, Quaternion.identity, parenttransform);
                 one.GetComponent<SimpleOre>().oreType= (SimpleOre.OreType)matrix[r, c];
+                one.GetComponent<SimpleOre>().oreUIImage = one.GetComponent<SpriteRenderer>();
+                one.GetComponent<SimpleOre>().AutoSetupOreImage();
             }
 
     }
