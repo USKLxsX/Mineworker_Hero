@@ -6,11 +6,15 @@ public class TimeProgressBar : MonoBehaviour
     [Header("时间进度条")]
     public RectTransform timeBar;
     public float totalTime = 60f;
-    public float barMaxWidth = 400f; // 进度条最大宽度
+    public float barMaxWidth = 400f;
+
+    [Header("角色设置")]
+    public Transform player; // 需要在Inspector中拖拽玩家对象
 
     private float currentTime;
     private bool isTimerRunning = true;
     private float originalBarWidth;
+    private bool hasTriggered = false;
 
     void Start()
     {
@@ -30,7 +34,7 @@ public class TimeProgressBar : MonoBehaviour
             currentTime = Mathf.Max(0, currentTime);
             UpdateProgressBar();
 
-            if (currentTime <= 0)
+            if (currentTime <= 0 && !hasTriggered)
             {
                 OnTimeUp();
             }
@@ -50,15 +54,34 @@ public class TimeProgressBar : MonoBehaviour
     void OnTimeUp()
     {
         isTimerRunning = false;
+        hasTriggered = true;
         Debug.Log("时间到！");
-        CameraController.Instance?.ZoomToMineArea();
-    }
 
-    // 重置计时器（可选）
+        // 1. 触发相机移动
+        if (CameraController.Instance != null)
+        {
+            CameraController.Instance.StartMoveToTarget();
+
+            // 2. 角色立即出现在摄像机的目标位置
+            if (player != null)
+            {
+                // 使用公开方法获取摄像机的目标Y位置
+                float cameraTargetY = CameraController.Instance.GetTargetYPosition();
+
+                // 角色立即移动到摄像机目标位置的Y坐标
+                Vector3 playerPos = player.position;
+                playerPos.y = cameraTargetY; // 使用摄像机的目标Y位置
+                player.position = playerPos;
+
+                Debug.Log($"角色立即出现在Y={cameraTargetY}（摄像机目标位置）");
+            }
+        }
+    }
     public void ResetTimer()
     {
         currentTime = totalTime;
         isTimerRunning = true;
+        hasTriggered = false;
         UpdateProgressBar();
     }
 }

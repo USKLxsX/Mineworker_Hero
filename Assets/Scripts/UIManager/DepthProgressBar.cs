@@ -7,10 +7,11 @@ public class DepthProgressBar : MonoBehaviour
     public RectTransform depthBar;
     public Transform player;
     public float maxDepth = 30f;
-    public float barMaxHeight = 350f; // 进度条最大高度
+    public float barMaxHeight = 350f;
 
     private float startY;
     private float originalBarHeight;
+    private bool hasTriggered = false;
 
     void Start()
     {
@@ -31,21 +32,33 @@ public class DepthProgressBar : MonoBehaviour
             float currentDepth = Mathf.Max(0, startY - player.position.y);
             float progress = currentDepth / maxDepth;
 
+            // 检查深度是否达到最大值（进度条为0）
+            if (progress >= 1f && !hasTriggered)
+            {
+                hasTriggered = true;
+                Debug.Log("深度到达底部！");
+
+                // 触发相机移动
+                if (CameraController.Instance != null)
+                {
+                    CameraController.Instance.StartMoveToTarget();
+                }
+            }
+
             if (depthBar != null)
             {
-                // 竖直方向变短：越往下深度越大，进度条高度越小
                 Vector2 size = new Vector2(depthBar.sizeDelta.x, (1 - progress) * barMaxHeight);
                 depthBar.sizeDelta = size;
             }
         }
     }
 
-    // 重置深度进度（进入新层时调用）
     public void ResetDepth()
     {
         if (player != null)
         {
             startY = player.position.y;
         }
+        hasTriggered = false;
     }
 }
