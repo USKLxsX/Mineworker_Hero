@@ -62,6 +62,8 @@ public class GameDateController : MonoBehaviour
     public float miningFortune;
     public float absorptionCount;
 
+    public int powerCrystalNumber;
+
     private static GameDateController instance;
     public static GameDateController Instance
     {

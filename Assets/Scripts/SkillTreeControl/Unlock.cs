@@ -13,6 +13,8 @@ public class Unlock : MonoBehaviour
     
     public List<GameObject> childSkills = new List<GameObject>();
 
+    private int _powerCrystalNumber;
+
     public void UnlockSkill()
     {
         if (CheckStatus(skill))
@@ -23,7 +25,13 @@ public class Unlock : MonoBehaviour
         {
             if (IsAnyParentUnlocked())
             {
+                List<PowerCrystalInputEntry> powerCrystalEntries = FileHandler.LoadFromJSON<PowerCrystalInputEntry>(fileName);
+                
                 List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
+
+                var existingPowerCrystalEntry = powerCrystalEntries.First();
+
+                _powerCrystalNumber = existingPowerCrystalEntry.number;
 
                 var existingEntry = entries.FirstOrDefault(s => s.skillName == skill.name);
                 if (existingEntry == null)
