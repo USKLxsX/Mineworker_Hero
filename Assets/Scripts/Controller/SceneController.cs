@@ -44,7 +44,7 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         sceneshader.SetActive(false);
-        sceneshader.GetComponent<CanvasGroup>().alpha = 0;
+        //sceneshader.GetComponent<CanvasGroup>().alpha = 0;
         nowscene=(NowScene)SceneManager.GetActiveScene().buildIndex;
     }
 
@@ -56,24 +56,39 @@ public class SceneController : MonoBehaviour
     public void ToScene(int id)
     {
         sceneshader.SetActive(true);
-        sceneshader = GameObject.Find("SceneShader");
+        Time.timeScale = 1;
         sceneshader.GetComponent<CanvasGroup>().alpha = 0;
+        PlayerSet.Instance.setbtn = null;
         StartCoroutine(SceneShaderFade(id));
     }
 
     IEnumerator SceneShaderFade(int id)
     {
+        CanvasGroup canvasGroup = sceneshader.GetComponent<CanvasGroup>();
         float time = 0;
-        while (sceneshader.GetComponent<CanvasGroup>().alpha < 1)
+        while (canvasGroup.alpha < 1)
         {
             time+= Time.deltaTime;
-            sceneshader.GetComponent<CanvasGroup>().alpha=Mathf.Lerp(0,1, time / fadeintime);
+            canvasGroup.alpha=Mathf.Lerp(0,1, time / fadeintime);
             yield return null;
         }
-        sceneshader.GetComponent<CanvasGroup>().alpha = 1;
+        canvasGroup.alpha = 1;
+
 
         SceneManager.LoadScene(id);
         nowscene = (NowScene)SceneManager.GetActiveScene().buildIndex;
+        PlayerSet.Instance.ifbackhome.SetActive(false);
+        PlayerSet.Instance.sets.SetActive(false);
+        yield return new WaitForSeconds(fadetime);
+        time = 0;
+        while (canvasGroup.alpha >0)
+        {
+            time += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1,0, time / fadeouttime);
+            yield return null;
+        }
+        canvasGroup.alpha = 0;
+        sceneshader.SetActive(false);
         yield break;
     }
 }

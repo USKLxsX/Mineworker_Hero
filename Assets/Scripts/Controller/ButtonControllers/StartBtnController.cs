@@ -44,7 +44,7 @@ public class StartBtnController : MonoBehaviour
 
     public void OnStartBtnClick()
     {
-        //StartCoroutine(SceneController.Instance.LoadInGameScene());
+        SceneController.Instance.ToScene(1);
     }
 
     public void OnIllustratedBtnClick()

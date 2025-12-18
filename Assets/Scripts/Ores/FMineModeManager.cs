@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FMineModeManager : MonoBehaviour
 {
@@ -6,13 +7,15 @@ public class FMineModeManager : MonoBehaviour
 
     public bool isFMouseMineActive = false;  // F键模式是否激活
     public bool hasUsedFMouseMine = false;   // 本次是否已使用
+    public Image skillimage;
+    public Image skilltext;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -26,6 +29,17 @@ public class FMineModeManager : MonoBehaviour
         {
             ToggleFMouseMineMode();
         }
+
+        if (hasUsedFMouseMine || isFMouseMineActive)
+        {
+            skillimage.color = Color.grey;
+            skilltext.color = Color.grey;
+        }
+        else
+        {
+            skillimage.color = Color.white;
+            skilltext.color = Color.white;
+        }
     }
 
     void ToggleFMouseMineMode()
@@ -36,10 +50,12 @@ public class FMineModeManager : MonoBehaviour
         if (isFMouseMineActive)
         {
             Debug.Log("F键挖矿模式激活！可以鼠标点击挖掉一块矿石");
+            MouseCursorChanger.Instance.ChangeCursor(MouseCursorChanger.Instance.cursorTexture, MouseCursorChanger.Instance.hotspot);
         }
         else
         {
             Debug.Log("F键挖矿模式关闭");
+            MouseCursorChanger.Instance.RestoreDefault();
         }
     }
 
@@ -49,6 +65,8 @@ public class FMineModeManager : MonoBehaviour
         {
             hasUsedFMouseMine = true;
             isFMouseMineActive = false; // 使用后自动关闭
+            MouseCursorChanger.Instance.RestoreDefault();
+            enabled = false;
             return true;
         }
         return false;

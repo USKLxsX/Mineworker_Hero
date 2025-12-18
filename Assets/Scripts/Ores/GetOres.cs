@@ -5,7 +5,7 @@ using UnityEngine;
 public class GetOres : MonoBehaviour
 {
     [SerializeField] Transform parenttransform;
-    [SerializeField] GameObject prefab;   
+    [SerializeField] GameObject prefab;
     [SerializeField] Vector2 cellSize = new Vector2(1, 1); 
     [SerializeField] Vector2 start;
     [SerializeField] int row = 25;
@@ -15,20 +15,33 @@ public class GetOres : MonoBehaviour
     [SerializeField] int purplenum = 5;
     [SerializeField] int hardstonenum = 35;
     [SerializeField] int lavastonenum = 10;
+    [SerializeField] bool haverestrict;
 
-    void Start()
+    public void GettheOres()
     {
-        int[,] matrix = RandomMatrix.GetARandomMatrix(row, col, rednum, bluenum, purplenum, hardstonenum, lavastonenum);
+        int[,] matrix;
+        if (haverestrict)
+        {
+            matrix = RandomMatrix.GetARandomMatrix(row, col, rednum, bluenum, purplenum, hardstonenum, lavastonenum);
+        }
+        else
+        {
+            matrix = RandomMatrix.GetARandomMatrixWithoutRestrict(row, col, rednum, bluenum, purplenum, hardstonenum, lavastonenum);
+        }
         for (int r = 0; r < row; r++)
             for (int c = 0; c < col; c++)
             {
                 Vector2 localOffset = start + new Vector2(c * cellSize.x, -r * cellSize.y);
                 Vector2 worldPos = (Vector2)parenttransform.TransformPoint(localOffset);
-                GameObject one=Instantiate(prefab, worldPos, Quaternion.identity, parenttransform);
-                one.GetComponent<SimpleOre>().oreType= (SimpleOre.OreType)matrix[r, c];
+                GameObject one = Instantiate(prefab, worldPos, Quaternion.identity, parenttransform);
+                one.GetComponent<SimpleOre>().oreType = (SimpleOre.OreType)matrix[r, c];
                 one.GetComponent<SimpleOre>().oreUIImage = one.GetComponent<SpriteRenderer>();
                 one.GetComponent<SimpleOre>().AutoSetupOreImage();
             }
+    }
 
+    private void Start()
+    {
+        GettheOres();
     }
 }

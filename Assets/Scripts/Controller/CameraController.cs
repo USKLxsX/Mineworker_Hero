@@ -87,6 +87,7 @@ public class CameraController : MonoBehaviour
             transform.position = targetPosition;
             Debug.Log("相机已到达Y=-25");
         }
+        PlayerBattleController.Instance.enabled = true;
     }
 
     public void SetFixedXPosition(float xPosition)

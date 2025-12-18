@@ -7,11 +7,11 @@ public class GameStatsInitializer : MonoBehaviour
     [SerializeField] private string skillFileName = "skills.json";
 
     [Header("Base Stats (Starting Values)")]
-    [SerializeField] private float baseHealth = 100f;
-    [SerializeField] private float baseAttack = 10f;
+    [SerializeField] private float baseHealth = 4f;
+    [SerializeField] private float baseAttack = 1f;
     [SerializeField] private float baseStrength = 1.0f;
     [SerializeField] private float baseMineSpeed = 1.0f;
-    [SerializeField] private float baseMoveSpeed = 5.0f;
+    [SerializeField] private float baseMoveSpeed = 1f;
     [SerializeField] private float baseCriticalChance = 1.0f;
     [SerializeField] private float baseMiningFortune = 1.0f;
     
@@ -86,6 +86,11 @@ public class GameStatsInitializer : MonoBehaviour
         else
         {
             Debug.LogError("GameDateController not found!");
+        }
+
+        if(SceneController.Instance != null)
+        {
+            SceneController.Instance.ToScene(2);
         }
     }
 

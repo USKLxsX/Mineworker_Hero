@@ -29,9 +29,12 @@ public class Unlock : MonoBehaviour
                 
                 List<SkillActiveInputEntry> entries = FileHandler.LoadFromJSON<SkillActiveInputEntry>(fileName);
 
-                var existingPowerCrystalEntry = powerCrystalEntries.First();
+                var existingPowerCrystalEntry = powerCrystalEntries.FirstOrDefault();
 
-                _powerCrystalNumber = existingPowerCrystalEntry.number;
+                if (existingPowerCrystalEntry != null)
+                {
+                    _powerCrystalNumber = existingPowerCrystalEntry.number;
+                }
 
                 var existingEntry = entries.FirstOrDefault(s => s.skillName == skill.name);
                 if (existingEntry == null)

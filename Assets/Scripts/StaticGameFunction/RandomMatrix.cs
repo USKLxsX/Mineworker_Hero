@@ -82,6 +82,54 @@ public static class RandomMatrix
         return matrix;
     }
 
+    public static int[,] GetARandomMatrixWithoutRestrict(int row, int col, int rednum, int bluenum, int purplenum, int hardstonenum, int lavastonenum)
+    {
+        int[,] matrix = new int[row, col];
+            matrix = new int[row, col];
+
+            List<(int x, int y)> canuse = new();
+            for (int j = 0; j < matrix.Length; j++)
+            {
+                if (matrix[j / col, j % col] == 0)
+                {
+                    canuse.Add((j / col, j % col));
+                }
+            }
+            #region Éú³É¿óÊ¯
+            for (int i = 0; i < hardstonenum; i++)
+            {
+                int randindex = Random.Range(0, canuse.Count);
+                matrix[(int)canuse[randindex].x, (int)canuse[randindex].y] = -1;
+                canuse.RemoveAt(randindex);
+            }
+            for (int i = 0; i < lavastonenum; i++)
+            {
+                int randindex = Random.Range(0, canuse.Count);
+                matrix[(int)canuse[randindex].x, (int)canuse[randindex].y] = 4;
+                canuse.RemoveAt(randindex);
+            }
+            for (int i = 0; i < rednum; i++)
+            {
+                int randindex = Random.Range(0, canuse.Count);
+                matrix[(int)canuse[randindex].x, (int)canuse[randindex].y] = 1;
+                canuse.RemoveAt(randindex);
+            }
+            for (int i = 0; i < bluenum; i++)
+            {
+                int randindex = Random.Range(0, canuse.Count);
+                matrix[(int)canuse[randindex].x, (int)canuse[randindex].y] = 2;
+                canuse.RemoveAt(randindex);
+            }
+            for (int i = 0; i < purplenum; i++)
+            {
+                int randindex = Random.Range(0, canuse.Count);
+                matrix[(int)canuse[randindex].x, (int)canuse[randindex].y] = 3;
+                canuse.RemoveAt(randindex);
+            }
+            #endregion
+        return matrix;
+    }
+
     public static string MatrixToString(int[,] matrix)
     {
         string result = "";

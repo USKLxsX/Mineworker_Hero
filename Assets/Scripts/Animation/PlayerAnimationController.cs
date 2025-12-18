@@ -120,6 +120,7 @@ public class PlayerAnimationController : MonoBehaviour
     // 获取当前动画状态
     public string GetCurrentState()
     {
+        if (animator == null) return "Idle";
         if (animator.GetBool(isMiningHash))
             return "Mining";
         if (animator.GetBool(isMovingHash))

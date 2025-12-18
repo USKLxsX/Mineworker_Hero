@@ -26,6 +26,7 @@ public class AtlasManager : MonoBehaviour
             btn.onClick.AddListener(() =>
             {
                 atlas.SetActive(true);
+                btn.transform.GetChild(1).gameObject.SetActive(false);
                 Monster info = btn.GetComponent<Monster>();
                 monstername.text = info.monster.MonsterName;
                 monsterblood.text = "ÉúÃüÖµ: " + info.monster.MonsterHP.ToString();

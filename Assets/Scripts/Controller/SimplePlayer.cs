@@ -15,6 +15,7 @@ public class SimplePlayer : MonoBehaviour
     private Rigidbody2D rb;
     private float currentMoveSpeed; // 当前实际移动速度
     private PlayerAnimationController animationController;
+    private SpriteRenderer sr;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class SimplePlayer : MonoBehaviour
         {
             animationController = gameObject.AddComponent<PlayerAnimationController>();
         }
+        sr=transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -71,6 +73,12 @@ public class SimplePlayer : MonoBehaviour
             {
                 animationController.StartMovingAnimation();
             }
+        }
+
+        float h = Input.GetAxis("Horizontal");
+        if (h != 0)
+        {
+            sr.flipX = h > 0;   
         }
     }
 
@@ -126,7 +134,7 @@ public class SimplePlayer : MonoBehaviour
             newTarget = hit.collider.GetComponent<SimpleOre>();
             if (newTarget != null)
             {
-                Debug.Log($"找到矿石: 类型={newTarget.oreType}");
+                //Debug.Log($"找到矿石: 类型={newTarget.oreType}");
             }
         }
 

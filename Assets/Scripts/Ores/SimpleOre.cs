@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using static TreeEditor.TreeEditorHelper;
 
@@ -11,7 +13,7 @@ public class SimpleOre : MonoBehaviour
         Blue = 2,       // 蓝宝石矿石 - 加攻击
         Purple = 3,     // 紫水晶矿石 - 加生命和攻击
         Hard = -1,      // 坚硬矿石 - 无法挖掘
-        Lava = 4        // 熔岩块 - 扣生命
+        Lava = 4,        // 熔岩块 - 扣生命
     }
 
     [Header("矿石类型标签")]
@@ -32,7 +34,7 @@ public class SimpleOre : MonoBehaviour
     private float digProgress = 0f;
     private bool isBeingDug = false;
     private float currentDigTime;
-    private bool isMinedByMouse = false;
+    public bool isMinedByMouse = false;
 
     void Start()
     {
@@ -147,7 +149,8 @@ public class SimpleOre : MonoBehaviour
             // 成功使用F键挖矿
             Debug.Log($"F键鼠标挖矿：挖掉{oreType}矿石");
             isMinedByMouse = true;
-            ApplyOreEffect();
+            OreDropSpawner.Instance.DropOreIcon(this,true);
+            ParticlesController.Instance.PlayParticle(this, 1.0f);
             Destroy(gameObject);
         }
         else
@@ -167,74 +170,8 @@ public class SimpleOre : MonoBehaviour
     void CompleteDigging()
     {
         isMinedByMouse = false;
-        ApplyOreEffect();
+        OreDropSpawner.Instance.DropOreIcon(this,false);
+        ParticlesController.Instance.PlayParticle(this, 1.0f);
         Destroy(gameObject);
-    }
-
-    void ApplyOreEffect()
-    {
-        if (GameDateController.Instance == null) return;
-
-        switch (oreType)
-        {
-            case OreType.Normal:
-                Debug.Log("普通矿石被挖掉");
-                break;
-
-            case OreType.Ruby:
-                GameDateController.Instance.blood += 2;
-                Debug.Log($"红宝石！生命值+2");
-                break;
-
-            case OreType.Blue:
-                GameDateController.Instance.attack += 1;
-                Debug.Log($"蓝宝石！攻击力+1");
-                break;
-
-            case OreType.Purple:
-                GameDateController.Instance.blood += 3;
-                GameDateController.Instance.attack += 2;
-                Debug.Log($"紫水晶！生命值+3，攻击力+2");
-                break;
-
-            case OreType.Hard:
-                Debug.Log($"坚硬矿石被挖掉，无效果");
-                break;
-
-            case OreType.Lava:
-                if (isMinedByMouse)
-                {
-                    Debug.Log($"鼠标挖掉熔岩块！不扣血");
-                }
-                else
-                {
-                    if (GameDateController.Instance.blood > 1)
-                    {
-                        GameDateController.Instance.blood -= 1;
-                        Debug.Log($"键盘挖掉熔岩块！生命值-1");
-                    }
-                    else
-                    {
-                        Debug.Log($"键盘挖掉熔岩块！生命值为1，不扣血");
-                    }
-                }
-                break;
-        }
-
-        UpdateUI();
-    }
-
-    void UpdateUI()
-    {
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.UpdateBloodUI();
-            UIManager.Instance.UpdateAttackUI();
-
-            if (oreType == OreType.Ruby || oreType == OreType.Blue || oreType == OreType.Purple)
-            {
-                UIManager.Instance.AddGem(oreType);
-            }
-        }
     }
 }

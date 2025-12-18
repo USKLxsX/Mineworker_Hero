@@ -5037,6 +5037,7 @@ MonoBehaviour:
   criticalChance: 0
   miningFortune: 0
   absorptionCount: 0
+  powerCrystalNumber: 0
 --- !u!4 &1249447533
 Transform:
   m_ObjectHideFlags: 0
@@ -6436,11 +6437,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillFileName: skillActiveStats.json
-  baseHealth: 100
-  baseAttack: 10
+  baseHealth: 4
+  baseAttack: 1
   baseStrength: 1
   baseMineSpeed: 1
-  baseMoveSpeed: 5
+  baseMoveSpeed: 1
   baseCriticalChance: 1
   baseMiningFortune: 1
   allSkills: []

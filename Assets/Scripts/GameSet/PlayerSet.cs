@@ -25,7 +25,7 @@ public class PlayerSet : MonoBehaviour
     public float voiceeffect;
     public bool isvoiceeffect;
 
-    private Button setbtn;//打开设置按钮
+    public Button setbtn;//打开设置按钮
     private Slider totalvolumnslider;//总音量滑动条
     private Slider volumnslider;//音量滑动条
     private Slider voiceeffectslider;//音效滑动条
@@ -55,9 +55,9 @@ public class PlayerSet : MonoBehaviour
         totalvolumnslider = sets.transform.GetChild(2).GetChild(0).GetComponent<Slider>();
         volumnslider = sets.transform.GetChild(2).GetChild(1).GetComponent<Slider>();
         voiceeffectslider = sets.transform.GetChild(2).GetChild(2).GetComponent<Slider>();
-        istotalvolumnbutton=sets.transform.GetChild(2).GetChild(3).GetComponent<Button>();
+        istotalvolumnbutton = sets.transform.GetChild(2).GetChild(3).GetComponent<Button>();
         isvolumnbutton = sets.transform.GetChild(2).GetChild(4).GetComponent<Button>();
-        isvoiceeffectbutton=sets.transform.GetChild(2).GetChild(5).GetComponent<Button>();
+        isvoiceeffectbutton = sets.transform.GetChild(2).GetChild(5).GetComponent<Button>();
 
         sets.SetActive(false);
         ifbackhome.SetActive(false);
@@ -65,14 +65,20 @@ public class PlayerSet : MonoBehaviour
         totalvolumn = PlayerPrefs.GetFloat("TotalVolumn", 100f);
         volumn = PlayerPrefs.GetFloat("Volumn", 100f);
         voiceeffect = PlayerPrefs.GetFloat("VoiceEffect", 100f);
-        istotalvolumn = PlayerPrefs.GetInt("IsTotalVolumn",1)==1;
+        istotalvolumn = PlayerPrefs.GetInt("IsTotalVolumn", 1) == 1;
         isvolumn = PlayerPrefs.GetInt("IsVolumn", 1) == 1;
         isvoiceeffect = PlayerPrefs.GetInt("IsVoiceEffect", 1) == 1;
 
-        totalvolumnslider.value = istotalvolumn?totalvolumn :0;
-        volumnslider.value = isvolumn?volumn:0;
-        voiceeffectslider.value = isvoiceeffect?voiceeffect:0;
-        
+        totalvolumnslider.value = istotalvolumn ? totalvolumn : 0;
+        volumnslider.value = isvolumn ? volumn : 0;
+        voiceeffectslider.value = isvoiceeffect ? voiceeffect : 0;
+
+        setbtn.onClick.RemoveAllListeners();
+        setbtn.onClick.AddListener(() =>
+        {
+            sets.SetActive(true);
+            Time.timeScale = 0;
+        });
     }
 
 
@@ -96,7 +102,7 @@ public class PlayerSet : MonoBehaviour
             }
         }
 
-        if(totalvolumnslider.value != totalvolumn)
+        if (totalvolumnslider.value != totalvolumn)
         {
             totalvolumn = totalvolumnslider.value;
             istotalvolumn = totalvolumn > 0;
